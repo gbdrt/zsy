@@ -1,0 +1,38 @@
+type dist
+type zone
+type constr
+type rel
+type guard
+
+val kill: string -> 'a
+val nth : 'a list * int -> 'a
+val filter: 'a list * bool list -> 'a list
+
+val dzero : dist
+val mindist : dist list * dist -> dist
+
+val leq: rel
+val lt: rel
+val constr : int * int * rel * int -> constr
+
+val set_timer_number: int -> unit
+val zall : unit -> zone
+val zmake : constr list -> zone
+val is_zempty : zone -> bool
+val zequal : zone * zone -> bool
+val zreset : zone * int * int -> zone
+val zinter : zone * zone -> zone
+val zinterfold : zone list -> zone
+val zup : zone -> zone
+val zdist: zone * zone -> dist list
+val zdistmap: zone * zone list -> dist list
+val zsweep : zone * dist * dist -> zone
+val zenabled: zone * zone list -> bool list
+
+val zprint : string * zone -> unit
+val open_graph: string -> unit
+val zdraw : int * int * int * int * zone -> unit
+val zdraw_clocks: int * int * int * int * zone -> unit
+
+val guard : string * bool -> guard
+val print_guards : bool * guard list -> int

@@ -1,0 +1,17 @@
+
+Configuration
+-------------
+
+  OCaml			/usr/local/lib/ocaml (4.04.0)
+  Lablgtk2		/Users/baudart/.opam/4.04.0/lib/lablgtk2
+  SundialsML		/usr/local/lib/ocaml/sundialsml
+  glMLite		NOT WORKING (/Users/baudart/.opam/4.04.0/lib/glMLite; 3D demos disabled)
+
+  targets:		byte opt withgtk.byte withgtk.opt
+
+Installation paths
+  prefix:		/usr/local
+  bindir:		/usr/local/bin
+  libdir:		/usr/local/lib
+  mandir:		/usr/local/share/man/
+

@@ -1,0 +1,42 @@
+open Zone
+open Basics
+
+let graph = open_graph " 700x700"
+
+(** Simulation **)
+type event = Inactive | Wait | C1 | C2 | C1C2
+
+let b_min = 3
+let b_max = 5
+
+
+let node main_symb(choice) = zc, bw, bc1, bc2 where
+  rec c1 = choice=C1 or choice=C1C2
+  and c2 = choice=C2 or choice=C1C2
+  and wait = choice = Wait
+  and (_, _), bv, bw,  zc = scheduler(wait, (c1, c2), (b_min, b_max))
+  and bc1 = nth(bv, 0)
+  and bc2 = nth(bv, 1)
+
+let node input (key, bw, bc1, bc2) = o where
+  o = match key with
+  | "c1" -> if bc1 then C1 else Inactive
+  | "c2" -> if bc2 then C2 else Inactive
+  | "c1c2" -> if bc1 && bc2 then C1C2 else Inactive
+  | "wait"  -> if bw then Wait else Inactive
+  | "quit"  -> kill("Goodbye!")
+  | _       -> Inactive
+  end
+
+let node simulation () = zc, prg where
+  rec key = read_line ()
+  and choice = input (key, false fby bw, false fby bc1, false fby bc2)
+  and prg = print_guards(bw, cons(guard("c1", bc1), cons(guard("c2", bc2), nil)))
+  and zc, bw, bc1, bc2 =
+    present (true fby false) | (choice <> Inactive) -> main_symb(choice)
+    init zall(), false, false, false
+
+let node main () =
+  let zc, prg = simulation() in
+  (* zdraw_clocks (1,2,b_min,b_max, zc) *)  (*  require graphics of size " 600x300" *)
+  zdraw (1,2, 6, 6, zc) (* require graphics of size " 700x700" *)
